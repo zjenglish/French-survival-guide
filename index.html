@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🗼 Paris & London — French Survival Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:   #0f1e3d;
+      --navy2:  #1a3260;
+      --gold:   #c9a84c;
+      --gold2:  #e8c96d;
+      --cream:  #f5f0e8;
+      --red:    #c0392b;
+      --green:  #27ae60;
+      --muted:  #6b7a99;
+      --border: rgba(201,168,76,0.28);
+      --card:   rgba(255,255,255,0.06);
+      --ease:   0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, #1a2a5e 55%, #0d1b3e 100%);
+      min-height: 100vh;
+      color: var(--cream);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ─────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.65rem 1.75rem;
+      background: rgba(0,0,0,0.28);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .h-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .h-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .progress-wrap { flex: 1; max-width: 260px; }
+
+    .progress-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      border-radius: 999px;
+      transition: width var(--ease);
+    }
+
+    .h-btns { display:flex; gap:0.4rem; margin-left:auto; }
+
+    .h-btn {
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--cream);
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .h-btn:hover { background: rgba(201,168,76,0.18); border-color: var(--gold); }
+    .h-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
+
+    /* ── SLIDES ──────────────────────────────── */
+    .slides-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 52% 48%;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity var(--ease), transform var(--ease);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+
+    .slide.exit { opacity:0; transform: translateX(-50px); }
+
+    /* ── LEFT PANEL ──────────────────────────── */
+    .s-left {
+      display: flex;
+      flex-direction: column;
+      padding: 1.4rem 1.5rem 1rem 2rem;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(201,168,76,0.13);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 0.65rem;
+    }
+
+    .title-fr {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .title-en {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+      margin-bottom: 0.9rem;
+    }
+
+    /* Hero image */
+    .hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .hero video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 2;
+      animation-duration: 9s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+
+    @keyframes kb-right {
+      from { transform: scale(1.0) translate(0%, 0%); }
+      to   { transform: scale(1.18) translate(-5%, -2%); }
+    }
+    @keyframes kb-left {
+      from { transform: scale(1.0) translate(0%, 0%); }
+      to   { transform: scale(1.18) translate(5%, 2%); }
+    }
+    @keyframes kb-zoom {
+      from { transform: scale(1.0) translate(0%, 1%); }
+      to   { transform: scale(1.20) translate(0%, -1%); }
+    }
+    @keyframes kb-upleft {
+      from { transform: scale(1.0) translate(0%, 0%); }
+      to   { transform: scale(1.16) translate(4%, 4%); }
+    }
+
+    /* Each slide gets its own direction + focal point */
+    .hero-0 img { animation-name: kb-right;  transform-origin: 55% 45%; } /* airport  */
+    .hero-1 img { animation-name: kb-left;   transform-origin: 45% 50%; } /* hotel    */
+    .hero-2 img { animation-name: kb-zoom;   transform-origin: 60% 30%; } /* lost     */
+    .hero-3 img { animation-name: kb-right;  transform-origin: 65% 55%; } /* café     */
+    .hero-4 img { animation-name: kb-upleft; transform-origin: 50% 50%; } /* phrases  */
+    .hero-5 img { animation-name: kb-zoom;   transform-origin: 50% 40%; } /* chunnel  */
+    .hero-6 img { animation-name: kb-left;   transform-origin: 50% 55%; } /* border   */
+    .hero-7 img { animation-name: kb-zoom;   transform-origin: 55% 50%; } /* meme     */
+    .hero-8 img { animation-name: kb-right;  transform-origin: 40% 60%; } /* late     */
+    .hero-9 img { animation-name: kb-upleft; transform-origin: 55% 45%; } /* tired    */
+    .hero-gif  { animation: none !important; } /* no Ken Burns on animated GIFs */
+
+    .hero-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      color: var(--gold);
+      opacity: 0.4;
+      gap: 0.4rem;
+    }
+
+    .hero-placeholder small {
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--muted);
+      opacity: 1;
+    }
+
+    .slide-question {
+      margin-top: 0.6rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(201,168,76,0.12);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.82rem;
+      color: var(--cream);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    /* Expand row */
+    .expand-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .expand-btn {
+      flex: 1;
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: rgba(245,240,232,0.7);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.73rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .expand-btn:hover { border-color: var(--gold); color: var(--cream); background: rgba(201,168,76,0.1); }
+    .expand-btn.open { border-color: var(--gold); color: var(--gold); }
+
+    .expand-content {
+      display: none;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: rgba(245,240,232,0.82);
+      padding: 0.75rem 0.85rem;
+      border-radius: 8px;
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+
+    .expand-content.funny-bg {
+      background: rgba(192,57,43,0.12);
+      border: 1px solid rgba(192,57,43,0.3);
+    }
+
+    .expand-content.tip-bg {
+      background: rgba(39,174,96,0.1);
+      border: 1px solid rgba(39,174,96,0.25);
+      font-style: normal;
+    }
+
+    .expand-content.show { display: block; }
+
+    /* ── RIGHT PANEL ─────────────────────────── */
+    .s-right {
+      display: flex;
+      flex-direction: column;
+      padding: 1.4rem 2rem 1rem 1.5rem;
+      overflow: hidden;
+    }
+
+    .phrases-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .phrases-hdr-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .score-badge {
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 600;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      transition: all 0.3s;
+    }
+
+    .score-badge.complete {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Quiz hint */
+    .quiz-hint {
+      font-size: 0.66rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      text-align: right;
+      flex-shrink: 0;
+      min-height: 1rem;
+    }
+
+    /* Phrase cards */
+    .phrases-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .phrase-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      flex: 1;
+    }
+
+    .phrase-card:hover {
+      background: rgba(201,168,76,0.1);
+      border-color: rgba(201,168,76,0.55);
+      transform: translateX(2px);
+    }
+
+    .phrase-card.collected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.12);
+    }
+
+    .phrase-card.quiz-hidden .p-fr {
+      filter: blur(7px);
+      user-select: none;
+      transition: filter 0.25s;
+    }
+
+    .phrase-card.quiz-hidden:hover .p-fr { filter: blur(0); }
+    .phrase-card.quiz-hidden .p-pron { visibility: hidden; }
+
+    .phrase-card.speaking {
+      border-color: var(--gold2);
+      background: rgba(201,168,76,0.18);
+    }
+
+    .p-body { flex: 1; min-width: 0; }
+
+    .p-fr {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      transition: filter 0.25s;
+    }
+
+    .p-en {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .p-pron {
+      font-size: 0.68rem;
+      color: var(--gold);
+      font-style: italic;
+      margin-top: 0.08rem;
+    }
+
+    .p-right {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .phrase-card.collected .check { opacity: 1; }
+
+    .speak-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(201,168,76,0.08);
+      color: var(--gold);
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s;
+      flex-shrink: 0;
+    }
+
+    .speak-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); transform: scale(1.1); }
+
+    .speak-btn.playing {
+      background: var(--gold);
+      color: var(--navy);
+      animation: pulse 0.9s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.18); }
+    }
+
+    /* Speak all */
+    .speak-all {
+      margin-top: 0.6rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      background: rgba(201,168,76,0.08);
+      color: var(--gold);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .speak-all:hover { background: var(--gold); color: var(--navy); }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 2rem;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.18);
+      flex-shrink: 0;
+    }
+
+    .nav-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) { background: rgba(201,168,76,0.18); border-color: var(--gold); color: var(--gold); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .nav-btn.gold { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .nav-btn.gold:hover:not(:disabled) { background: var(--gold2); }
+
+    .dots { display:flex; gap:0.45rem; align-items:center; }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active { background: var(--gold); width: 22px; border-radius: 999px; }
+    .dot:hover:not(.active) { background: rgba(201,168,76,0.45); }
+
+    /* ── OVERLAYS ────────────────────────────── */
+    #voice-toast {
+      position: fixed;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: rgba(15,30,61,0.92);
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.72rem;
+      color: var(--gold);
+      display: none;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .overlay.show { display: flex; }
+
+    .ov-card {
+      background: var(--navy2);
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      padding: 1.75rem;
+      max-width: 580px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .ov-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 0.85rem;
+    }
+
+    .ref-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+
+    .ref-table th {
+      text-align: left;
+      padding: 0.45rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.67rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .ref-table td {
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      vertical-align: middle;
+    }
+
+    .ref-table td:first-child { color: var(--muted); font-size: 0.75rem; }
+    .ref-table td:nth-child(2) { font-weight: 600; color: #fff; }
+    .ref-table td:nth-child(3) { color: var(--gold); font-style: italic; font-size: 0.75rem; }
+
+    .ref-speak { background:none; border:none; color:var(--gold); cursor:pointer; font-size:0.95rem; }
+
+    .ov-close {
+      margin-top: 1.25rem;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+    }
+
+    .ov-close:hover { background: var(--gold); color: var(--navy); }
+
+    /* ── BUBBLE SCENE SLIDES ─────────────────── */
+    .slide.is-bubble { display: flex; flex-direction: column; grid-template-columns: unset; }
+
+    .bubble-canvas {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .bubble-canvas img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    .bc-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,20,50,0.2);
+      pointer-events: none;
+    }
+
+    .bubble-topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 0.65rem 1.1rem;
+      background: linear-gradient(rgba(10,20,50,0.72), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .bt-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .bt-score {
+      background: rgba(201,168,76,0.18);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      transition: all 0.35s;
+    }
+
+    .bt-score.done { background: var(--gold); color: var(--navy); }
+
+    .bubble-hint {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.45rem 1rem;
+      background: linear-gradient(transparent, rgba(10,20,50,0.72));
+      font-size: 0.7rem;
+      color: rgba(201,168,76,0.88);
+      text-align: center;
+      pointer-events: none;
+      z-index: 5;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    /* Speech bubbles */
+    .speech-bubble {
+      position: absolute;
+      background: rgba(255,255,255,0.93);
+      border-radius: 14px;
+      padding: 7px 28px 7px 11px;
+      min-width: 110px;
+      max-width: 190px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+      z-index: 10;
+      opacity: 0;
+      transform: scale(0.72) translateY(8px);
+      animation: bubblePop 0.38s forwards;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      user-select: none;
+      border: 1.5px solid rgba(255,255,255,0.4);
+    }
+
+    @keyframes bubblePop { to { opacity:1; transform: scale(1) translateY(0); } }
+
+    .speech-bubble:hover { transform: scale(1.08) !important; box-shadow: 0 7px 26px rgba(0,0,0,0.42); }
+
+    .speech-bubble.heard {
+      background: rgba(201,168,76,0.14);
+      border-color: rgba(201,168,76,0.5);
+    }
+
+    .speech-bubble.speaking {
+      background: rgba(201,168,76,0.92);
+      border-color: var(--gold);
+    }
+
+    .b-icon {
+      position: absolute;
+      top: 5px; right: 8px;
+      font-size: 0.7rem;
+      color: var(--gold);
+      transition: color 0.2s;
+    }
+
+    .speech-bubble.speaking .b-icon { color: var(--navy); }
+
+    .b-fr { font-weight:700; color:#0f1e3d; font-size:0.8rem; line-height:1.3; }
+    .b-en { color:#6b7a99; font-size:0.65rem; font-style:italic; margin-top:2px; line-height:1.2; }
+    .speech-bubble.speaking .b-en { color: rgba(15,30,61,0.65); }
+
+    /* Tails */
+    .speech-bubble::before { content:''; position:absolute; width:0; height:0; }
+
+    .speech-bubble.tail-r::before {
+      right:-9px; top:50%; transform:translateY(-50%);
+      border-top:8px solid transparent; border-bottom:8px solid transparent;
+      border-left:9px solid rgba(255,255,255,0.93);
+    }
+    .speech-bubble.tail-l::before {
+      left:-9px; top:50%; transform:translateY(-50%);
+      border-top:8px solid transparent; border-bottom:8px solid transparent;
+      border-right:9px solid rgba(255,255,255,0.93);
+    }
+    .speech-bubble.tail-up::before {
+      top:-9px; left:16px;
+      border-left:8px solid transparent; border-right:8px solid transparent;
+      border-bottom:9px solid rgba(255,255,255,0.93);
+    }
+    .speech-bubble.tail-down::before {
+      bottom:-9px; left:16px;
+      border-left:8px solid transparent; border-right:8px solid transparent;
+      border-top:9px solid rgba(255,255,255,0.93);
+    }
+
+    /* Speaking tail colours */
+    .speech-bubble.speaking.tail-r::before    { border-left-color:   rgba(201,168,76,0.92); }
+    .speech-bubble.speaking.tail-l::before    { border-right-color:  rgba(201,168,76,0.92); }
+    .speech-bubble.speaking.tail-up::before   { border-bottom-color: rgba(201,168,76,0.92); }
+    .speech-bubble.speaking.tail-down::before { border-top-color:    rgba(201,168,76,0.92); }
+
+    /* Heard tail colours */
+    .speech-bubble.heard.tail-r::before    { border-left-color:   rgba(201,168,76,0.14); }
+    .speech-bubble.heard.tail-l::before    { border-right-color:  rgba(201,168,76,0.14); }
+    .speech-bubble.heard.tail-up::before   { border-bottom-color: rgba(201,168,76,0.14); }
+    .speech-bubble.heard.tail-down::before { border-top-color:    rgba(201,168,76,0.14); }
+
+    /* Scene dots in nav */
+    .dot.dot-scene {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(201,168,76,0.28);
+      border-radius: 50%;
+    }
+    .dot.dot-scene.active { background: rgba(201,168,76,0.45); border-color: var(--gold); width:22px; border-radius:999px; }
+
+    /* ── MOBILE ──────────────────────────────── */
+    @media (max-width: 860px) {
+      body { overflow: auto; }
+      .slide {
+        position: relative;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        transform: none !important;
+        opacity: 1 !important;
+        display: none;
+      }
+      .slide.active { display: grid; }
+      .slide.is-bubble.active { display: flex; }
+      .slides-wrap { overflow: visible; height: auto; flex: none; }
+      .s-left { border-right: none; border-bottom: 1px solid var(--border); padding: 1.2rem; }
+      .s-right { padding: 1.2rem; }
+      .title-fr { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Voice toast -->
+<div id="voice-toast">🔊 Speaking...</div>
+
+<!-- Quick Reference overlay -->
+<div class="overlay" id="ref-overlay">
+  <div class="ov-card">
+    <div class="ov-title">✂️ Emergency Pocket Card</div>
+    <p style="font-size:0.77rem; color:var(--muted); margin-bottom:0.85rem;">The phrases you need RIGHT now. Click 🔊 to hear any.</p>
+    <table class="ref-table">
+      <thead>
+        <tr><th>Situation</th><th>French</th><th>Sounds like</th><th></th></tr>
+      </thead>
+      <tbody id="ref-body"></tbody>
+    </table>
+    <button class="ov-close" onclick="document.getElementById('ref-overlay').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="h-title">🗼 Paris &amp; London — French Survival Guide</div>
+    <div class="h-sub">Senior Field Trip · Boston → Montréal → Paris → London</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="prog-label">Situation 1 of 6</div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:16.6%"></div></div>
+  </div>
+  <div class="h-btns">
+    <button class="h-btn" id="quiz-btn" onclick="toggleQuiz()">🙈 Quiz Me</button>
+    <button class="h-btn" onclick="document.getElementById('ref-overlay').classList.add('show')">📋 Quick Ref</button>
+  </div>
+</header>
+
+<!-- SLIDES WRAPPER -->
+<div class="slides-wrap" id="slides-wrap"></div>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>← Précédent</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn gold" id="next-btn" onclick="navigate(1)">Suivant →</button>
+</nav>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const SLIDES = [
+  {
+    badge: "✈️ Situation 1 — Airport",
+    fr: "À l'Aéroport",
+    en: "At the Airport",
+    img: "images/01-airport.png",    video: "images/01-airport.mp4",
+    emoji: "✈️",
+    question: "You just landed at Charles de Gaulle after a stopover in Montréal. What do you say?",
+    funny: "You rehearsed 'Bonjour' 47 times on the plane. You land. The customs officer says 'Bonjour.' You say... 'Yes.' It's fine. It's totally fine. The brain forgets French at altitude. Try again.",
+    tip: "Always say 'Bonjour' before anything else — skipping the greeting is considered rude in France. Even 'Bonjour, parlez-vous anglais?' goes over dramatically better than launching straight into English.",
+    phrases: [
+      { fr: "Bonjour!", en: "Hello! / Good morning!", pron: "bohn-ZHOOR" },
+      { fr: "Voici mon passeport.", en: "Here is my passport.", pron: "vwah-SEE mohn pass-POR" },
+      { fr: "Où est la sortie?", en: "Where is the exit?", pron: "oo-eh lah sor-TEE" },
+      { fr: "Je ne comprends pas.", en: "I don't understand.", pron: "zhuh nuh kohm-PRAHN pah" },
+      { fr: "Pouvez-vous répéter?", en: "Can you repeat that?", pron: "poo-VAY voo ray-pay-TAY" },
+    ],
+  },
+  {
+    badge: "🏨 Situation 2 — Hotel",
+    fr: "À l'Hôtel",
+    en: "At the Hotel",
+    img: "images/02-hotel.png",     video: null,
+    emoji: "🏨",
+    question: "You're at the front desk. First question?",
+    funny: "The WiFi password is 47 characters. Alphanumeric. With a capital that looks like a number. Given verbally. In French. Use your last phrase: 'Pouvez-vous l'écrire?' You're welcome.",
+    tip: "Say 'Monsieur' or 'Madame' before asking anything. French customer service rewards politeness differently than American customer service — it unlocks an entirely different version of the person behind the desk.",
+    phrases: [
+      { fr: "J'ai une réservation.", en: "I have a reservation.", pron: "zhay oon ray-zer-VAH-syohn" },
+      { fr: "Quel est le mot de passe Wi-Fi?", en: "What's the WiFi password?", pron: "kel-eh luh moh duh PASS wee-FEE" },
+      { fr: "À quelle heure est le petit-déjeuner?", en: "What time is breakfast?", pron: "ah kel-UR eh luh puh-TEE day-zhuh-NAY" },
+      { fr: "Pouvez-vous l'écrire?", en: "Can you write it down?", pron: "poo-VAY voo lay-KREER" },
+      { fr: "Bonne nuit!", en: "Good night!", pron: "bohn NWEE" },
+    ],
+  },
+  {
+    badge: "🗺️ Situation 3 — Lost",
+    fr: "Je Suis Perdu(e)!",
+    en: "I'm Lost!",
+    img: "images/03-lost.png",      video: "images/03-lost.mp4",
+    emoji: "🗺️",
+    question: "Your phone is at 4%. You took a wrong turn leaving the Louvre and now you're somewhere near the Marais. What now?",
+    funny: "Your phone dies somewhere between the Louvre and Montmartre. Google Maps: gone. The map in your packet: crumpled. You confidently walked into what you thought was the direction of the Seine. You are now further from the Seine. This is the moment you become a traveler instead of a tourist.",
+    tip: "Finish your ask with 'Pouvez-vous me montrer sur la carte?' and point at a map. Pointing removes the language barrier almost entirely. Key Paris landmarks that locals understand immediately: Tour Eiffel, le Louvre, Notre-Dame, Montmartre. Say the name + 'Où est...?' and you'll get there.",
+    phrases: [
+      { fr: "Excusez-moi, je suis perdu(e).", en: "Excuse me, I'm lost.", pron: "ex-KOO-zay mwah, zhuh SWEE pair-DOO" },
+      { fr: "Où est...?", en: "Where is...?", pron: "oo-EH" },
+      { fr: "Tournez à gauche.", en: "Turn left.", pron: "toor-NAY ah GOHSH" },
+      { fr: "Tournez à droite.", en: "Turn right.", pron: "toor-NAY ah DRWAT" },
+      { fr: "C'est loin?", en: "Is it far?", pron: "say LWAHN" },
+    ],
+  },
+  {
+    badge: "☕ Situation 4 — Café",
+    fr: "Au Café",
+    en: "Ordering Food",
+    img: "images/04-cafe.png",      video: "images/04-cafe-motion.gif",
+    emoji: "☕",
+    question: "You've just finished the Seine river cruise. The waiter at a Montmartre sidewalk café just appeared. What do you order?",
+    funny: "⚠️ CRITICAL: 'Un baiser' sounds like it could be a drink. It is NOT. It means a kiss. Coffee is 'un café.' These are very different things to accidentally order. You have been warned.",
+    tip: "In France the table is yours until YOU ask for the check — l'addition. No waiter will rush you. You'll be sitting on a Montmartre terrace with a view of Sacré-Coeur. Order slowly, eat slowly, stay. That's the point. The waiter who switched to perfect English the second you tried French? You still passed. Trying counts.",
+    phrases: [
+      { fr: "Je voudrais...", en: "I would like...", pron: "zhuh voo-DRAY" },
+      { fr: "Un café, s'il vous plaît.", en: "A coffee, please.", pron: "uhn kah-FAY, seel voo PLAY" },
+      { fr: "Qu'est-ce que vous recommandez?", en: "What do you recommend?", pron: "kess-kuh voo ruh-koh-mahn-DAY" },
+      { fr: "C'est délicieux!", en: "It's delicious!", pron: "say day-lee-SYUH" },
+      { fr: "L'addition, s'il vous plaît.", en: "The check, please.", pron: "lah-dee-SYOHN, seel voo PLAY" },
+    ],
+  },
+  {
+    badge: "💬 Situation 5 — Everywhere",
+    fr: "Phrases Essentielles",
+    en: "The Universal Survival Kit",
+    img: "images/05-phrases.png",   video: null,
+    emoji: "💬",
+    question: "Day 3 in Paris: the Louvre, Notre-Dame, a Seine cruise. Which one phrase saves you every single time?",
+    funny: "You will say 'Où sont les toilettes?' at least four times today: once at the Louvre (long line, regret nothing), once on the Seine cruise (the bathrooms are below deck), once near Notre-Dame, and once in the Arc de Triomphe gift shop. 'C'est urgent!' is your fast-pass. No further explanation required.",
+    tip: "'Parlez-vous anglais?' is your emergency ejector seat. Use it only AFTER genuinely trying in French first. Effort communicates respect — and French people respond very differently to 'I tried and failed' than to 'I didn't try at all.'",
+    phrases: [
+      { fr: "Merci beaucoup!", en: "Thank you very much!", pron: "mehr-SEE boh-KOO" },
+      { fr: "Parlez-vous anglais?", en: "Do you speak English?", pron: "par-LAY voo ahn-GLAY" },
+      { fr: "Où sont les toilettes?", en: "Where is the bathroom?", pron: "oo sohn lay twah-LET" },
+      { fr: "C'est combien?", en: "How much is it?", pron: "say kohm-BYAHN" },
+      { fr: "Enchanté(e)!", en: "Nice to meet you!", pron: "ahn-shahn-TAY" },
+    ],
+  },
+  {
+    badge: "🚄 Situation 6 — The Chunnel",
+    fr: "Le Tunnel sous la Manche",
+    en: "Eurostar to London",
+    img: "images/06-chunnel.png",   video: null,
+    emoji: "🚄",
+    question: "31 miles under the Channel, Paris behind you, Tower of London ahead. What's your French farewell?",
+    funny: "You emerge from the tunnel in England. You try to speak French. Everyone looks at you. They speak English here. Your brain has been rerouted and you briefly panic in two languages simultaneously. That's called being multilingual. Welcome to London.",
+    tip: "Gare du Nord is one of the busiest stations in Europe. Get there EARLY with your passport — it's a full border crossing. On the other side: Tower of London on Day 5, Windsor Castle on Day 6. The Eurostar doesn't wait, the Channel doesn't care about your schedule, and your teacher has already sent three reminder texts.",
+    phrases: [
+      { fr: "Où est la Gare du Nord?", en: "Where is Gare du Nord?", pron: "oo-eh lah gar doo NOR" },
+      { fr: "Mon billet, s'il vous plaît.", en: "My ticket, please.", pron: "mohn bee-YEH, seel voo PLAY" },
+      { fr: "Bon voyage!", en: "Have a great trip!", pron: "bohn vwah-YAZH" },
+      { fr: "Au revoir, Paris!", en: "Goodbye, Paris!", pron: "oh ruh-VWAR, pah-REE" },
+      { fr: "Bonjour, Londres!", en: "Hello, London!", pron: "bohn-ZHOOR, LOHN-druh" },
+    ],
+  },
+  {
+    badge: "🛂 Situation 7 — Border Control",
+    fr: "Contrôle aux Frontières",
+    en: "At the Border",
+    img: "images/07-border.png", video: "images/07-border.mp4",
+    emoji: "🛂",
+    question: "The officer is staring at your bag. What do you say?",
+    funny: "You are 17. Your backpack contains 4 airport snacks, a charger you can't find, a French phrasebook you never opened, and something the X-ray machine flagged. It's a water bottle. You forgot to empty it. 'Rien à déclarer,' you said. Technically, you lied.",
+    tip: "Border officers are not impressed by jokes. Answer exactly what you're asked: hotel name, purpose = 'tourisme scolaire'. UK entry also requires an ETA (Electronic Travel Authorisation, £10) that your teacher filed — don't panic if they ask. Short, direct, calm wins every time.",
+    phrases: [
+      { fr: "Je suis étudiant(e).", en: "I'm a student.", pron: "zhuh SWEE ay-too-dee-YAHN" },
+      { fr: "Je voyage avec mon école.", en: "I'm traveling with my school.", pron: "zhuh vwah-YAZH ah-VEK mohn ay-KOL" },
+      { fr: "Je suis ici pour le tourisme.", en: "I'm here for tourism.", pron: "zhuh SWEE ee-SEE poor luh too-REEZM" },
+      { fr: "Voici mes papiers.", en: "Here are my documents.", pron: "vwah-SEE may pah-PYAY" },
+      { fr: "Rien à déclarer.", en: "Nothing to declare.", pron: "ryAN ah day-klah-RAY" },
+    ],
+  },
+  {
+    badge: "📱 Situation 8 — Meme Incident",
+    fr: "Le Délit Numérique",
+    en: "The Online Mistake",
+    img: "images/08-meme.png", video: "images/08-french.mp4",
+    emoji: "📱",
+    question: "A gendarme is pointing at your phone. What do you say first?",
+    funny: "France has actual laws about what you can post online. That photo of the gendarme you thought was 'kinda funny'? He disagrees. He is now standing directly in front of you while you frantically scroll to delete it. He does not speak internet. He does speak French law. Delete. Delete. DELETE.",
+    tip: "France enforces 'droit à l'image' — the right to control your own image. Posting someone in uniform without consent is legally risky. Rule: blur faces, don't geotag the hotel, don't post cops. Your teacher can see everything too.",
+    phrases: [
+      { fr: "Je suis désolé(e).", en: "I'm so sorry.", pron: "zhuh SWEE day-zoh-LAY" },
+      { fr: "Je ne savais pas.", en: "I didn't know.", pron: "zhuh nuh sah-VAY pah" },
+      { fr: "Je vais le supprimer.", en: "I'll delete it.", pron: "zhuh VAY luh soo-PREE-MAY" },
+      { fr: "Ce n'était pas mon intention.", en: "That wasn't my intention.", pron: "suh nay-TAY pah mohn an-tahn-SYOHN" },
+      { fr: "Pouvez-vous appeler mon professeur?", en: "Can you call my teacher?", pron: "poo-VAY voo ah-puh-LAY mohn proh-feh-SUR" },
+    ],
+  },
+  {
+    badge: "🚌 Situation 9 — Missed the Bus",
+    fr: "En Retard!",
+    en: "Running Late",
+    img: "images/09-late.png", video: null,
+    emoji: "🚌",
+    question: "The bus is pulling away. You are in pajamas. What now?",
+    funny: "The meeting time was 7:30 AM — departure for the Louvre. You set your alarm for 7:30 AM. European hotel alarm clocks have their own philosophy. Also it was 3 AM Boston time. The bus pulled away from the hotel 12 minutes ago. Mr. English is typing. The three dots. They're just sitting there. This is what 'être en retard' feels like in real life.",
+    tip: "Set THREE alarms. If you miss the bus — do not panic, do not hide. Text your teacher IMMEDIATELY and take a taxi. A late student is a minor inconvenience. A missing student triggers an international incident.",
+    phrases: [
+      { fr: "Je suis en retard!", en: "I'm late!", pron: "zhuh SWEE ahn ruh-TAR" },
+      { fr: "J'ai raté le bus!", en: "I missed the bus!", pron: "zhay rah-TAY luh BOOS" },
+      { fr: "Combien coûte un taxi?", en: "How much is a taxi?", pron: "kohm-BYAHN KOOT uhn tak-SEE" },
+      { fr: "Où est l'arrêt de bus?", en: "Where is the bus stop?", pron: "oo-eh lah-REH duh BOOS" },
+      { fr: "Vite, s'il vous plaît!", en: "Hurry, please!", pron: "VEET, seel voo PLAY" },
+    ],
+  },
+  {
+    badge: "😴 Situation 10 — Sleep Deprived",
+    fr: "La Fatigue du Voyageur",
+    en: "The Traveler's Exhaustion",
+    img: "images/10-tired.png", video: null,
+    emoji: "😴",
+    question: "You haven't truly slept since Boston. A beautiful French person just said something to you. You have no idea what.",
+    funny: "Day 3, Paris. Six-hour time difference. You are at a café. The most beautiful French person you've ever seen walks up and says something perfect. You respond in what you believe is French. It is garbled nonsense from two languages plus jet lag static. They smile politely and walk away. You watch them go. No regrets. Only exhaustion.",
+    tip: "Jet lag is real — Paris is 6 hours ahead of Boston. Don't fight it with all-nighters; that extends the misery. Get outside in daylight, eat on Paris time from day one, close your eyes on every bus. Sleep debt compounds. Day 4 without sleep means Day 1 with zero defenses against anything.",
+    phrases: [
+      { fr: "Je suis épuisé(e).", en: "I'm exhausted.", pron: "zhuh SWEE ay-PWEE-zay" },
+      { fr: "Je n'ai pas dormi.", en: "I haven't slept.", pron: "zhuh NAY pah dor-MEE" },
+      { fr: "Un double espresso, s'il vous plaît.", en: "A double espresso, please.", pron: "uhn DOO-bluh es-PRES-oh, seel voo PLAY" },
+      { fr: "Je suis très fatigué(e).", en: "I'm very tired.", pron: "zhuh SWEE tray fah-tee-GAY" },
+      { fr: "Pouvez-vous répéter?", en: "Can you repeat that?", pron: "poo-VAY voo ray-pay-TAY" },
+    ],
+  },
+];
+
+const QUICK_REF = [
+  { sit: "I'm lost", fr: "Excusez-moi, je suis perdu(e).", pron: "ex-KOO-zay mwah, zhuh SWEE pair-DOO" },
+  { sit: "Bathroom — NOW", fr: "Où sont les toilettes? C'est urgent!", pron: "oo sohn lay twah-LET, say oor-ZHAHN" },
+  { sit: "I don't understand", fr: "Je ne comprends pas.", pron: "zhuh nuh kohm-PRAHN pah" },
+  { sit: "Call the police!", fr: "Appelez la police!", pron: "ah-puh-LAY lah poh-LEES" },
+  { sit: "I'm sick", fr: "Je suis malade.", pron: "zhuh swee mah-LAD" },
+  { sit: "The check, please", fr: "L'addition, s'il vous plaît.", pron: "lah-dee-SYOHN seel voo PLAY" },
+  { sit: "WiFi password?", fr: "Quel est le mot de passe Wi-Fi?", pron: "kel-eh luh moh duh PASS wee-FEE" },
+  { sit: "Can you write it?", fr: "Pouvez-vous l'écrire?", pron: "poo-VAY voo lay-KREER" },
+  { sit: "I'm a student", fr: "Je suis étudiant(e).", pron: "zhuh SWEE ay-too-dee-YAHN" },
+  { sit: "I'll delete it", fr: "Je vais le supprimer.", pron: "zhuh VAY luh soo-PREE-MAY" },
+  { sit: "I missed the bus!", fr: "J'ai raté le bus!", pron: "zhay rah-TAY luh BOOS" },
+  { sit: "I'm exhausted", fr: "Je suis épuisé(e).", pron: "zhuh SWEE ay-PWEE-zay" },
+];
+
+// Bubble positions per situation (top/left = % of image canvas)
+const BUBBLE_DATA = [
+  [ // 0 — Airport
+    { fr: "Bonjour!", en: "Hello!", top: 10, left: 6, tail: "down" },
+    { fr: "Voici mon passeport.", en: "Here is my passport.", top: 42, left: 54, tail: "l" },
+    { fr: "Où est la sortie?", en: "Where is the exit?", top: 12, left: 63, tail: "down" },
+    { fr: "Je ne comprends pas.", en: "I don't understand.", top: 65, left: 6, tail: "up" },
+    { fr: "Pouvez-vous répéter?", en: "Can you repeat?", top: 73, left: 45, tail: "up" },
+  ],
+  [ // 1 — Hotel
+    { fr: "J'ai une réservation.", en: "I have a reservation.", top: 18, left: 5, tail: "r" },
+    { fr: "Quel est le mot de passe Wi-Fi?", en: "WiFi password?", top: 50, left: 5, tail: "r" },
+    { fr: "À quelle heure est le petit-déjeuner?", en: "What time is breakfast?", top: 70, left: 5, tail: "r" },
+    { fr: "Bonne nuit!", en: "Good night!", top: 10, left: 62, tail: "l" },
+    { fr: "Pouvez-vous l'écrire?", en: "Can you write it down?", top: 75, left: 58, tail: "l" },
+  ],
+  [ // 2 — Lost
+    { fr: "Excusez-moi, je suis perdu(e)!", en: "Excuse me, I'm lost!", top: 12, left: 5, tail: "down" },
+    { fr: "Où est...?", en: "Where is...?", top: 50, left: 6, tail: "r" },
+    { fr: "Tournez à gauche.", en: "Turn left.", top: 28, left: 60, tail: "l" },
+    { fr: "C'est loin?", en: "Is it far?", top: 70, left: 32, tail: "up" },
+    { fr: "Tournez à droite.", en: "Turn right.", top: 65, left: 62, tail: "l" },
+  ],
+  [ // 3 — Café
+    { fr: "Je voudrais...", en: "I would like...", top: 15, left: 5, tail: "r" },
+    { fr: "Un café, s'il vous plaît.", en: "A coffee, please.", top: 8, left: 38, tail: "down" },
+    { fr: "C'est délicieux!", en: "It's delicious!", top: 55, left: 5, tail: "r" },
+    { fr: "L'addition, s'il vous plaît.", en: "The check, please.", top: 75, left: 5, tail: "r" },
+    { fr: "Qu'est-ce que vous recommandez?", en: "What do you recommend?", top: 22, left: 60, tail: "l" },
+  ],
+  [ // 4 — Phrases
+    { fr: "Merci beaucoup!", en: "Thank you very much!", top: 8, left: 5, tail: "r" },
+    { fr: "Enchanté(e)!", en: "Nice to meet you!", top: 10, left: 65, tail: "l" },
+    { fr: "Parlez-vous anglais?", en: "Do you speak English?", top: 42, left: 5, tail: "r" },
+    { fr: "Où sont les toilettes?", en: "Where's the bathroom?", top: 70, left: 6, tail: "r" },
+    { fr: "C'est combien?", en: "How much is it?", top: 68, left: 62, tail: "l" },
+  ],
+  [ // 5 — Chunnel
+    { fr: "Bon voyage!", en: "Have a great trip!", top: 8, left: 36, tail: "down" },
+    { fr: "Au revoir, Paris!", en: "Goodbye, Paris!", top: 32, left: 5, tail: "r" },
+    { fr: "Bonjour, Londres!", en: "Hello, London!", top: 32, left: 62, tail: "l" },
+    { fr: "Mon billet, s'il vous plaît.", en: "My ticket, please.", top: 68, left: 6, tail: "up" },
+    { fr: "Où est la Gare du Nord?", en: "Where is Gare du Nord?", top: 65, left: 55, tail: "l" },
+  ],
+  [ // 6 — Border Control
+    { fr: "Je suis étudiant(e).", en: "I'm a student.", top: 12, left: 8, tail: "down" },
+    { fr: "Je voyage avec mon école.", en: "Traveling with my school.", top: 32, left: 55, tail: "l" },
+    { fr: "Je suis ici pour le tourisme.", en: "I'm here for tourism.", top: 55, left: 8, tail: "r" },
+    { fr: "Voici mes papiers.", en: "Here are my documents.", top: 70, left: 52, tail: "l" },
+    { fr: "Rien à déclarer.", en: "Nothing to declare.", top: 78, left: 10, tail: "up" },
+  ],
+  [ // 7 — Meme Incident
+    { fr: "Je suis désolé(e).", en: "I'm so sorry.", top: 10, left: 8, tail: "down" },
+    { fr: "Je ne savais pas.", en: "I didn't know.", top: 38, left: 6, tail: "r" },
+    { fr: "Je vais le supprimer.", en: "I'll delete it.", top: 62, left: 6, tail: "r" },
+    { fr: "Ce n'était pas mon intention.", en: "That wasn't my intention.", top: 18, left: 55, tail: "l" },
+    { fr: "Pouvez-vous appeler mon professeur?", en: "Can you call my teacher?", top: 72, left: 50, tail: "l" },
+  ],
+  [ // 8 — Missed the Bus
+    { fr: "Je suis en retard!", en: "I'm late!", top: 8, left: 35, tail: "down" },
+    { fr: "J'ai raté le bus!", en: "I missed the bus!", top: 30, left: 6, tail: "r" },
+    { fr: "Combien coûte un taxi?", en: "How much is a taxi?", top: 55, left: 6, tail: "r" },
+    { fr: "Où est l'arrêt de bus?", en: "Where is the bus stop?", top: 75, left: 6, tail: "up" },
+    { fr: "Vite, s'il vous plaît!", en: "Hurry, please!", top: 18, left: 62, tail: "l" },
+  ],
+  [ // 9 — Sleep Deprived
+    { fr: "Je suis épuisé(e).", en: "I'm exhausted.", top: 10, left: 8, tail: "down" },
+    { fr: "Je n'ai pas dormi.", en: "I haven't slept.", top: 40, left: 8, tail: "r" },
+    { fr: "Un double espresso, s'il vous plaît.", en: "Double espresso, please.", top: 70, left: 8, tail: "up" },
+    { fr: "Je suis très fatigué(e).", en: "I'm very tired.", top: 15, left: 58, tail: "l" },
+    { fr: "Pouvez-vous répéter?", en: "Can you repeat that?", top: 55, left: 58, tail: "l" },
+  ],
+];
+
+const TOTAL_SLIDES = SLIDES.length * 2; // 20 — alternating phrase / scene
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let current = 0;
+let quizMode = false;
+let scores       = SLIDES.map(() => new Set());
+let heardBubbles = SLIDES.map(() => new Set());
+
+// ═══════════════════════════════════════════
+// SPEECH
+// ═══════════════════════════════════════════
+function speak(text, btn) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'fr-FR';
+  utt.rate = 0.8;
+
+  const toast = document.getElementById('voice-toast');
+  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('playing'));
+  if (btn) btn.classList.add('playing');
+  toast.textContent = `🔊 "${text}"`;
+  toast.style.display = 'block';
+
+  utt.onend = utt.onerror = () => {
+    if (btn) btn.classList.remove('playing');
+    toast.style.display = 'none';
+  };
+
+  window.speechSynthesis.speak(utt);
+}
+
+function speakAll(si) {
+  window.speechSynthesis.cancel();
+  const phrases = SLIDES[si].phrases;
+  let i = 0;
+  const toast = document.getElementById('voice-toast');
+
+  const next = () => {
+    if (i >= phrases.length) { toast.style.display = 'none'; return; }
+    const utt = new SpeechSynthesisUtterance(phrases[i].fr);
+    utt.lang = 'fr-FR';
+    utt.rate = 0.78;
+    toast.textContent = `🔊 ${i+1}/${phrases.length}: "${phrases[i].fr}"`;
+    toast.style.display = 'block';
+    utt.onend = () => { i++; setTimeout(next, 550); };
+    window.speechSynthesis.speak(utt);
+  };
+  next();
+}
+
+// ═══════════════════════════════════════════
+// BUBBLE HEARING
+// ═══════════════════════════════════════════
+function hearBubble(si, bi, el) {
+  window.speechSynthesis.cancel();
+  document.querySelectorAll(`#slide-${si*2+1} .speech-bubble`).forEach(b => b.classList.remove('speaking'));
+  el.classList.add('speaking', 'heard');
+  const text = BUBBLE_DATA[si][bi].fr;
+  const utt  = new SpeechSynthesisUtterance(text);
+  utt.lang   = 'fr-FR';
+  utt.rate   = 0.8;
+  const toast = document.getElementById('voice-toast');
+  toast.textContent = `🔊 "${text}"`;
+  toast.style.display = 'block';
+  utt.onend = utt.onerror = () => { el.classList.remove('speaking'); toast.style.display = 'none'; };
+  window.speechSynthesis.speak(utt);
+  heardBubbles[si].add(bi);
+  const scoreEl = document.getElementById(`bscore-${si}`);
+  if (scoreEl) {
+    const n = heardBubbles[si].size, total = BUBBLE_DATA[si].length;
+    scoreEl.textContent = `Heard ${n} / ${total}`;
+    if (n >= total) scoreEl.classList.add('done');
+  }
+}
+
+// ═══════════════════════════════════════════
+// COLLECT (tap a phrase card)
+// ═══════════════════════════════════════════
+function collectPhrase(si, pi, btn) {
+  scores[si].add(pi);
+  const card = btn.closest('.phrase-card');
+  card.classList.add('collected');
+  speak(SLIDES[si].phrases[pi].fr, card.querySelector('.speak-btn'));
+  updateScore(si);
+}
+
+function updateScore(si) {
+  const el = document.getElementById(`score-${si}`);
+  if (!el) return;
+  const n = scores[si].size;
+  const total = SLIDES[si].phrases.length;
+  el.textContent = `✓ ${n} / ${total}`;
+  if (n >= total) el.classList.add('complete');
+  else el.classList.remove('complete');
+}
+
+// ═══════════════════════════════════════════
+// EXPAND TOGGLE
+// ═══════════════════════════════════════════
+function toggle(id, btn) {
+  const el = document.getElementById(id);
+  const open = el.classList.toggle('show');
+  btn.classList.toggle('open', open);
+}
+
+// ═══════════════════════════════════════════
+// HERO MEDIA — video, gif, or Ken-Burns still
+// ═══════════════════════════════════════════
+function heroMedia(slide) {
+  const v = slide.video;
+  if (!v) return `<img src="${slide.img}" alt="${slide.fr}" onerror="this.style.display='none'">`;
+  if (v.endsWith('.gif')) return `<img src="${v}" alt="${slide.fr}" class="hero-gif">`;
+  return `<video autoplay loop muted playsinline poster="${slide.img}"><source src="${v}" type="video/mp4"></video>`;
+}
+
+// ═══════════════════════════════════════════
+// BUILD SLIDES
+// ═══════════════════════════════════════════
+function buildSlide(slide, si) {
+  const div = document.createElement('div');
+  div.className = 'slide' + (si === 0 ? ' active' : '');
+  div.id = `slide-${si * 2}`; // even IDs = phrase slides
+
+  const phraseCards = slide.phrases.map((p, pi) => `
+    <div class="phrase-card" id="card-${si}-${pi}" onclick="collectPhrase(${si},${pi},this)">
+      <div class="p-body">
+        <div class="p-fr">${p.fr}</div>
+        <div class="p-en">${p.en}</div>
+        <div class="p-pron">${p.pron}</div>
+      </div>
+      <div class="p-right">
+        <div class="check">✓</div>
+        <button class="speak-btn" onclick="event.stopPropagation(); speak('${p.fr.replace(/'/g,"\\'")}', this)" title="Hear it">🔊</button>
+      </div>
+    </div>
+  `).join('');
+
+  div.innerHTML = `
+    <div class="s-left">
+      <div class="badge">${slide.badge}</div>
+      <div class="title-fr">${slide.fr}</div>
+      <div class="title-en">${slide.en}</div>
+      <div class="hero hero-${si}">
+        ${heroMedia(slide)}
+        <div class="hero-placeholder">${slide.emoji}<small>Image loading...</small></div>
+      </div>
+      <div class="slide-question">${slide.question}</div>
+      <div class="expand-row">
+        <button class="expand-btn" onclick="toggle('funny-${si}', this)">🔥 Senior Moment</button>
+        <button class="expand-btn" onclick="toggle('tip-${si}', this)">🎯 Pro Tip</button>
+      </div>
+      <div class="expand-content funny-bg" id="funny-${si}">${slide.funny}</div>
+      <div class="expand-content tip-bg" id="tip-${si}">${slide.tip}</div>
+    </div>
+    <div class="s-right">
+      <div class="phrases-hdr">
+        <span class="phrases-hdr-label">Key Phrases — tap to collect</span>
+        <span class="score-badge" id="score-${si}">✓ 0 / ${slide.phrases.length}</span>
+      </div>
+      <div class="quiz-hint" id="qhint-${si}" style="visibility:hidden">👆 Hover card to reveal French</div>
+      <div class="phrases-list">${phraseCards}</div>
+      <button class="speak-all" onclick="speakAll(${si})">🔊 Hear All in French</button>
+    </div>
+  `;
+  return div;
+}
+
+function buildQuickRef() {
+  const tbody = document.getElementById('ref-body');
+  QUICK_REF.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${r.sit}</td>
+      <td>${r.fr}</td>
+      <td>${r.pron}</td>
+      <td><button class="ref-speak" onclick="speak('${r.fr.replace(/'/g,"\\'")}',null)">🔊</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ═══════════════════════════════════════════
+// BUILD BUBBLE (SCENE) SLIDE
+// ═══════════════════════════════════════════
+function buildBubbleSlide(slide, si) {
+  const div = document.createElement('div');
+  div.className = 'slide is-bubble';
+  div.id = `slide-${si * 2 + 1}`; // odd IDs = scene slides
+
+  const bubblesHtml = BUBBLE_DATA[si].map((b, bi) => `
+    <div class="speech-bubble tail-${b.tail}"
+         style="top:${b.top}%;left:${b.left}%;animation-delay:${(0.1 + bi * 0.16).toFixed(2)}s"
+         onclick="hearBubble(${si},${bi},this)">
+      <span class="b-icon">🔊</span>
+      <div class="b-fr">${b.fr}</div>
+      <div class="b-en">${b.en}</div>
+    </div>
+  `).join('');
+
+  div.innerHTML = `
+    <div class="bubble-canvas">
+      ${slide.img.endsWith('.mp4') ? `<video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block"><source src="${slide.img}" type="video/mp4"></video>` : `<img src="${slide.img}" alt="${slide.fr}">`}
+      <div class="bc-dim"></div>
+      <div class="bubble-topbar">
+        <span class="bt-label">${slide.emoji} ${slide.fr} — Scene</span>
+        <span class="bt-score" id="bscore-${si}">Heard 0 / ${BUBBLE_DATA[si].length}</span>
+      </div>
+      ${bubblesHtml}
+      <div class="bubble-hint">👆 Click any bubble to hear the phrase in French</div>
+    </div>
+  `;
+  return div;
+}
+
+function renderAll() {
+  const wrap = document.getElementById('slides-wrap');
+  SLIDES.forEach((s, si) => {
+    wrap.appendChild(buildSlide(s, si));
+    wrap.appendChild(buildBubbleSlide(s, si));
+  });
+
+  const dotsEl = document.getElementById('dots');
+  for (let i = 0; i < TOTAL_SLIDES; i++) {
+    const d = document.createElement('div');
+    const isBubble = i % 2 === 1;
+    d.className = 'dot' + (i === 0 ? ' active' : '') + (isBubble ? ' dot-scene' : '');
+    d.title = isBubble ? `Scene ${Math.floor(i/2)+1}` : `Phrases ${Math.floor(i/2)+1}`;
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  buildQuickRef();
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function goTo(idx) {
+  window.speechSynthesis.cancel();
+  document.getElementById('voice-toast').style.display = 'none';
+
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.dot');
+
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  setTimeout(() => slides[current].classList.remove('exit'), 380);
+
+  current = idx;
+  slides[current].classList.add('active');
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+
+  const si = Math.floor(current / 2);
+  const isBubble = current % 2 === 1;
+  const pct = ((current + 1) / TOTAL_SLIDES * 100).toFixed(1);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent =
+    `Situation ${si + 1} of ${SLIDES.length}${isBubble ? ' · Scene' : ''}`;
+
+  document.getElementById('prev-btn').disabled = current === 0;
+  const nb = document.getElementById('next-btn');
+  if (current === TOTAL_SLIDES - 1) {
+    nb.textContent = '🏁 Bon voyage!';
+    nb.disabled = true;
+  } else {
+    nb.textContent = 'Suivant →';
+    nb.disabled = false;
+  }
+
+  document.getElementById('quiz-btn').style.visibility = isBubble ? 'hidden' : 'visible';
+  if (!isBubble && quizMode) applyQuiz(true);
+}
+
+function navigate(dir) {
+  const n = current + dir;
+  if (n >= 0 && n < TOTAL_SLIDES) goTo(n);
+}
+
+// ═══════════════════════════════════════════
+// QUIZ MODE
+// ═══════════════════════════════════════════
+function applyQuiz(on) {
+  const _si = Math.floor(current / 2);
+  document.querySelectorAll(`#slide-${_si*2} .phrase-card`).forEach(c => c.classList.toggle('quiz-hidden', on));
+  const hint = document.getElementById(`qhint-${_si}`);
+  if (hint) hint.style.visibility = on ? 'visible' : 'hidden';
+}
+
+function toggleQuiz() {
+  quizMode = !quizMode;
+  const btn = document.getElementById('quiz-btn');
+  btn.textContent = quizMode ? '👁️ Show French' : '🙈 Quiz Me';
+  btn.classList.toggle('active', quizMode);
+  applyQuiz(quizMode);
+}
+
+// ═══════════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  if (e.key === 'Escape') document.getElementById('ref-overlay').classList.remove('show');
+});
+
+renderAll();
+</script>
+</body>
+</html>
